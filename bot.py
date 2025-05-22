@@ -83,7 +83,7 @@ async def start_command(interaction: discord.Interaction):
         "**👋 Liebe Community!**\n\n"
         "Dieser Bot hilft dir, immer informiert zu bleiben und die Community-Regeln im Blick zu behalten.\n\n"
         "Hier sind die wichtigsten Befehle:\n"
-        "• `/regeln` – Zeigt dir die Regeln und den wichtigen Disclaimer.\n"
+        "• `/regeln` – Zeigt dir die Regeln und den wichtigen Disclaimer.\n\n"
         "Wenn du Fragen hast, melde dich gerne per Support-Ticket bei uns.\n\n"
         "**Viel Spaß & bleib respektvoll!** ✨"
     )
