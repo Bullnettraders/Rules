@@ -80,7 +80,7 @@ async def regeln_command(interaction: discord.Interaction):
 @bot.tree.command(name="start", description="Begrüßung und Übersicht über die Funktionen")
 async def start_command(interaction: discord.Interaction):
     text = (
-        "**👋 Willkommen!**\n\n"
+        "**👋 Liebe Community!**\n\n"
         "Dieser Bot hilft dir, immer informiert zu bleiben und die Community-Regeln im Blick zu behalten.\n\n"
         "Hier sind die wichtigsten Befehle:\n"
         "• `/regeln` – Zeigt dir die Regeln und den wichtigen Disclaimer.\n"
