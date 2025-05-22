@@ -5,7 +5,7 @@ import os
 # Railway Umgebungsvariablen
 TOKEN = os.getenv("DISCORD_TOKEN")
 CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
-NACHRICHTENGRENZE = int(os.getenv("MESSAGE_LIMIT", 500))
+NACHRICHTENGRENZE = int(os.getenv("MESSAGE_LIMIT", 200))
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -84,7 +84,6 @@ async def start_command(interaction: discord.Interaction):
         "Dieser Bot hilft dir, immer informiert zu bleiben und die Community-Regeln im Blick zu behalten.\n\n"
         "Hier sind die wichtigsten Befehle:\n"
         "• `/regeln` – Zeigt dir die Regeln und den wichtigen Disclaimer.\n"
-        "• 📜 Regelhinweise werden automatisch nach 500 Nachrichten gepostet.\n\n"
         "Wenn du Fragen hast, melde dich gerne bei einem Moderator.\n"
         "Viel Spaß & bleib respektvoll! ✨"
     )
