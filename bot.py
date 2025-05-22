@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import os
 
-# ⛅️ Railway nutzt Umgebungsvariablen
+# Railway Umgebungsvariablen
 TOKEN = os.getenv("DISCORD_TOKEN")
 CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
 NACHRICHTENGRENZE = int(os.getenv("MESSAGE_LIMIT", 500))
@@ -15,7 +15,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 nachrichten_zaehler = 0
 
-# 📜 Der Text für Regeln + Disclaimer
+# 📜 Regel- & Disclaimer-Text
 DISCLAIMER_TEXT = (
     "**📢 Wichtiger Disclaimer:**\n\n"
     "Forex, Futures, Kryptowährungen und Aktien unterliegen Kursveränderungen und sind gehebelte Finanzinstrumente mit erheblichen Verlustrisiken. "
@@ -45,16 +45,20 @@ DISCLAIMER_TEXT = (
     "_Das Team behält sich vor, die Regeln jederzeit zu ändern._"
 )
 
-# 📜 View mit Button
+# ✅ View mit Button – jetzt mit custom_id!
 class RegelnButton(discord.ui.View):
     def __init__(self):
         super().__init__(timeout=None)
 
-    @discord.ui.button(label="📜 Regeln & Disclaimer anzeigen", style=discord.ButtonStyle.primary)
+    @discord.ui.button(
+        label="📜 Regeln & Disclaimer anzeigen",
+        style=discord.ButtonStyle.primary,
+        custom_id="regeln_button"
+    )
     async def regel_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message(DISCLAIMER_TEXT, ephemeral=True)
 
-# 📦 Embed vorbereiten
+# 📦 Embed für die 500-Nachrichten-Nachricht
 def create_embed():
     embed = discord.Embed(
         title="💬 Liebe Community",
@@ -72,10 +76,25 @@ def create_embed():
 async def regeln_command(interaction: discord.Interaction):
     await interaction.response.send_message(DISCLAIMER_TEXT, ephemeral=True)
 
+# 🔁 Slash-Command /start
+@bot.tree.command(name="start", description="Begrüßung und Übersicht über die Funktionen")
+async def start_command(interaction: discord.Interaction):
+    text = (
+        "**👋 Willkommen!**\n\n"
+        "Dieser Bot hilft dir, immer informiert zu bleiben und die Community-Regeln im Blick zu behalten.\n\n"
+        "Hier sind die wichtigsten Befehle:\n"
+        "• `/regeln` – Zeigt dir die Regeln und den wichtigen Disclaimer.\n"
+        "• 📜 Regelhinweise werden automatisch nach 500 Nachrichten gepostet.\n\n"
+        "Wenn du Fragen hast, melde dich gerne bei einem Moderator.\n"
+        "Viel Spaß & bleib respektvoll! ✨"
+    )
+    await interaction.response.send_message(text, ephemeral=True)
+
+# 🔁 Bot ready
 @bot.event
 async def on_ready():
     print(f"✅ Bot läuft als: {bot.user}")
-    bot.add_view(RegelnButton())  # View bleibt persistent
+    bot.add_view(RegelnButton())  # Persistenter Button
 
     try:
         synced = await bot.tree.sync()
@@ -83,6 +102,7 @@ async def on_ready():
     except Exception as e:
         print(f"❌ Fehler beim Slash-Command-Sync: {e}")
 
+# 🔁 Nachrichten zählen
 @bot.event
 async def on_message(message):
     global nachrichten_zaehler
